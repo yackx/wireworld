@@ -6,6 +6,13 @@ class Color(Enum):
     blue = 'H'
     red = 't'
 
+    @staticmethod
+    def char_to_color(c):
+        if c == '.': return Color.yellow
+        if c == 't': return Color.red
+        if c == 'H': return Color.blue
+        raise Exception('Unknown char: ' + c)
+
 
 class Engine:
 
@@ -49,14 +56,6 @@ class Engine:
 
 
     @staticmethod
-    def __char_to_color(c):
-        if c == '.': return Color.yellow
-        if c == 't': return Color.red
-        if c == 'H': return Color.blue
-        raise Exception('Unknown char: ' + c)
-
-
-    @staticmethod
     def load(file_name):
         world = Engine.__new_world()
 
@@ -65,6 +64,6 @@ class Engine:
                 line = line.rstrip('\n\r ')
                 for char_index, c in enumerate(line):
                     if c != ' ':
-                        world[Engine.__char_to_color(c)].append((char_index, line_number))
+                        world[Color.char_to_color(c)].append((char_index, line_number))
 
         return world
