@@ -22,6 +22,7 @@ class Gui:
         self.canvas = tk.Canvas(self.frame, width=canvas_width, height=canvas_height, bg="black")
 
 
+    """Compute canvas and block sizes"""
     def __compute_sizes(self, world_width, world_height):
         canvas_width = int(world_width * block_max_size)
         if canvas_width > canvas_max_width:
@@ -60,7 +61,7 @@ class Gui:
 
 
     """Draw the current state of the world, then pause.
-    This function schedule a call to itself via `after`."""
+    This function schedules a call to itself via `after`."""
     def __draw(self):
         b_size = self.block_size
         # Draw cells
