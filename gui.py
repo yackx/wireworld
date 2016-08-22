@@ -15,7 +15,14 @@ class Gui:
         self.world = world
 
         world_width, world_height = self.world.dimensions()
+        canvas_width, canvas_height, self.block_size = self.__compute_sizes(world_width, world_height)
 
+        self.root = tk.Tk()
+        self.frame = tk.Frame(self.root)
+        self.canvas = tk.Canvas(self.frame, width=canvas_width, height=canvas_height, bg="black")
+
+
+    def __compute_sizes(self, world_width, world_height):
         canvas_width = int(world_width * block_max_size)
         if canvas_width > canvas_max_width:
             canvas_width = canvas_max_width
@@ -36,16 +43,14 @@ class Gui:
         if block_height * world_height > canvas_height:
             block_height = canvas_height / world_height
 
-        self.block_size = max(block_width, block_height)
-        if self.block_size < block_min_size:
-            self.block_size = block_min_size
+        block_size = max(block_width, block_height)
+        if block_size < block_min_size:
+            block_size = block_min_size
 
         print('world={0}/{1}, canvas={2}/{3}, block_size={4}'.format(
-            world_width, world_height, canvas_width, canvas_height, self.block_size))
+            world_width, world_height, canvas_width, canvas_height, block_size))
 
-        self.root = tk.Tk()
-        self.frame = tk.Frame(self.root)
-        self.canvas = tk.Canvas(self.frame, width=canvas_width, height=canvas_height, bg="black")
+        return canvas_width, canvas_height, block_size
 
 
     """Start animating the world"""
