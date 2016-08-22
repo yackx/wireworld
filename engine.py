@@ -50,8 +50,8 @@ class Engine:
     @staticmethod
     def __new_world():
         world = dict()
-        for k in [Color.blue, Color.red, Color.yellow]:
-            world[k] = []
+        for color in Color:
+            world[color] = []
         return world
 
 
