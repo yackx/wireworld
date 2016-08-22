@@ -5,6 +5,10 @@ class Engine:
     def __init__(self, world):
         self.world = world
 
+        # All neighbors as delta (-1,-1 to 1, 1)
+        self.dd = list(product([-1, 0, 1], repeat= 2))
+        self.dd.remove((0, 0))
+
 
     def state(self):
         return self.world
@@ -13,13 +17,9 @@ class Engine:
     def tick(self):
         new_world = Engine.__new_world()
 
-        # All neighbors as delta (-1,-1 to 1, 1)
-        dd = list(product([-1, 0, 1], repeat= 2))
-        dd.remove((0, 0))
-
         # conductor -> head if 1 or 2 neighbors, conductor otherwise
         for x, y in self.world['yellow']:
-            n = sum((x+dx, y+dy) in self.world['blue'] for dx, dy in dd)
+            n = sum((x+dx, y+dy) in self.world['blue'] for dx, dy in self.dd)
             if n == 1 or n == 2:
                 color = 'blue'
             else:
