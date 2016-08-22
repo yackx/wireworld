@@ -1,12 +1,5 @@
 import tkinter as tk
 
-canvas_max_width = 1000
-canvas_min_width = 20
-canvas_max_height = 750
-canvas_min_height = 15
-block_max_size = 20
-block_min_size = 1
-
 """Displays the Wireworld and make it evolve to its next states"""
 class Gui:
 
@@ -24,6 +17,13 @@ class Gui:
 
     """Compute canvas and block sizes"""
     def __compute_sizes(self, world_width, world_height):
+        canvas_max_width = 1000
+        canvas_min_width = 20
+        canvas_max_height = 750
+        canvas_min_height = 15
+        block_max_size = 20
+        block_min_size = 1
+
         canvas_width = int(world_width * block_max_size)
         if canvas_width > canvas_max_width:
             canvas_width = canvas_max_width
