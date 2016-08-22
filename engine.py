@@ -1,5 +1,6 @@
 from itertools import product
 from enum import Enum
+import itertools
 
 
 """A Color in the wireworld"""
@@ -15,6 +16,7 @@ class Color(Enum):
         if c == '.': return Color.yellow
         if c == 't': return Color.red
         if c == 'H': return Color.blue
+        if c == 'b' or c == ' ': return None
         raise Exception('Unknown char: ' + c)
 
 
@@ -29,6 +31,13 @@ class Engine:
         self.dd = list(product([-1, 0, 1], repeat= 2))
         self.dd.remove((0, 0))
 
+        # Compute dimensions
+        values = world.values()
+        points = list(itertools.chain(*values))
+        self.size_x = max(points, key=lambda x: x[0])[0] + 1
+        self.size_y = max(points, key=lambda x: x[1])[1] + 1
+
+
     """Return the current state of the world as a map.
     keys: Color; values: list of (x, y) tuples.
 
@@ -41,6 +50,10 @@ class Engine:
     """
     def state(self):
         return self.world
+
+
+    def dimensions(self):
+        return (self.size_x, self.size_y)
 
 
     """Step the world to the next state."""
@@ -61,6 +74,7 @@ class Engine:
 
         self.world = new_world
         return self.world
+
 
 
     """Create a new, empty world."""
@@ -85,7 +99,9 @@ class Engine:
             for line_number, line in enumerate(f):
                 line = line.rstrip('\n\r ')
                 for char_index, c in enumerate(line):
-                    if c != ' ':
-                        world[Color.char_to_color(c)].append((char_index, line_number))
+                    color = Color.char_to_color(c)
+                    if color != None:
+                        world[color].append((char_index, line_number))
 
+        print(world)
         return world
