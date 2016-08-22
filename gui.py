@@ -22,30 +22,17 @@ class Gui:
         canvas_max_height = 750
         canvas_min_height = 15
         block_max_size = 20
-        block_min_size = 1
+        block_min_size = 2
 
-        def compute_one_canvas_dimension(min_size, max_size, world_dimension):
-            canvas_dim = int(world_dimension * block_max_size)
-            if canvas_dim > max_size:
-                canvas_dim = max_size
-            elif canvas_dim < min_size:
-                canvas_dim = min_size
-            return canvas_dim
+        def clip(lo, x, hi):
+             return lo if x <= lo else hi if x >= hi else x
 
-        canvas_width  = compute_one_canvas_dimension(canvas_min_width, canvas_max_width, world_width)
-        canvas_height = compute_one_canvas_dimension(canvas_min_height, canvas_max_height, world_height)
+        canvas_width  = clip(canvas_min_width, world_width*block_max_size, canvas_max_width)
+        canvas_height = clip(canvas_min_height, world_height*block_max_size, canvas_max_height)
 
-        block_width = block_max_size
-        if block_width * world_width > canvas_width:
-            block_width = canvas_width / world_width
-
-        block_height = block_max_size
-        if block_height * world_height > canvas_height:
-            block_height = canvas_height / world_height
-
-        block_size = max(block_width, block_height)
-        if block_size < block_min_size:
-            block_size = block_min_size
+        block_width = int(min(canvas_width / world_width, block_max_size))
+        block_height = int(min(canvas_height / world_height, block_max_size))
+        block_size = int(max(min(block_width, block_height), block_min_size))
 
         print('world={0}/{1}, canvas={2}/{3}, block_size={4}'.format(
             world_width, world_height, canvas_width, canvas_height, block_size))
