@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import Tkinter as tk
+import tkinter as tk
 
 from engine import Engine
 
@@ -13,7 +13,7 @@ def draw(frame, canvas):
 
     # Draw cells
     ww.state()
-    for color, points in ww.state().iteritems():
+    for color, points in ww.state().items():
         for point in points:
             point = [i * block for i in point]
             x, y = point
