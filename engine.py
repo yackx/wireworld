@@ -1,4 +1,11 @@
 from itertools import product
+from enum import Enum
+
+class Color(Enum):
+    yellow = '.'
+    blue = 'H'
+    red = 't'
+
 
 class Engine:
 
@@ -18,16 +25,16 @@ class Engine:
         new_world = Engine.__new_world()
 
         # conductor -> head if 1 or 2 neighbors, conductor otherwise
-        for x, y in self.world['yellow']:
-            n = sum((x+dx, y+dy) in self.world['blue'] for dx, dy in self.dd)
+        for x, y in self.world[Color.yellow]:
+            n = sum((x+dx, y+dy) in self.world[Color.blue] for dx, dy in self.dd)
             if n == 1 or n == 2:
-                color = 'blue'
+                color = Color.blue
             else:
-                color = 'yellow'
+                color = Color.yellow
             new_world[color].append((x, y))
 
-        new_world['red'] = self.world['blue']       # head -> tail
-        new_world['yellow'] += self.world['red']    # tail -> conductor
+        new_world[Color.red] = self.world[Color.blue]       # head -> tail
+        new_world[Color.yellow] += self.world[Color.red]    # tail -> conductor
 
         self.world = new_world
         return self.world
@@ -36,16 +43,16 @@ class Engine:
     @staticmethod
     def __new_world():
         world = dict()
-        for k in ['blue', 'red', 'yellow']:
+        for k in [Color.blue, Color.red, Color.yellow]:
             world[k] = []
         return world
 
 
     @staticmethod
     def __char_to_color(c):
-        if c == '.': return 'yellow'
-        if c == 't': return 'red'
-        if c == 'H': return 'blue'
+        if c == '.': return Color.yellow
+        if c == 't': return Color.red
+        if c == 'H': return Color.blue
         raise Exception('Unknown char: ' + c)
 
 

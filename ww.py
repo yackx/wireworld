@@ -17,7 +17,7 @@ def draw(frame, canvas):
         for point in points:
             point = [i * block for i in point]
             x, y = point
-            canvas.create_rectangle(x, y, x+block, y+block, fill=color)
+            canvas.create_rectangle(x, y, x+block, y+block, fill=color.name)
     # Render
     canvas.pack()
     frame.pack()
