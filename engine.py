@@ -1,11 +1,15 @@
 from itertools import product
 from enum import Enum
 
-class Color(Enum):
-    yellow = '.'
-    blue = 'H'
-    red = 't'
 
+"""A Color in the wireworld"""
+class Color(Enum):
+    yellow = '.'    # conductor
+    blue = 'H'      # head
+    red = 't'       # tail
+
+    """Return the color corresponding to a character.
+    Used when loading from file."""
     @staticmethod
     def char_to_color(c):
         if c == '.': return Color.yellow
@@ -14,6 +18,8 @@ class Color(Enum):
         raise Exception('Unknown char: ' + c)
 
 
+"""The Wireworld engine stores the world current state
+and provides a method to step to the next state."""
 class Engine:
 
     def __init__(self, world):
@@ -23,11 +29,21 @@ class Engine:
         self.dd = list(product([-1, 0, 1], repeat= 2))
         self.dd.remove((0, 0))
 
+    """Return the current state of the world as a map.
+    Keys: Color; Values: list of (x, y) tuples.
 
+    For instance:
+        {
+            Color.blue:    [(2, 0)],
+            Color.red:     [(1, 0)],
+            Color.yellow:  [(0, 0), (3, 0)]
+        }
+    """
     def state(self):
         return self.world
 
 
+    """Step the world to the next state."""
     def tick(self):
         new_world = Engine.__new_world()
 
@@ -47,6 +63,7 @@ class Engine:
         return self.world
 
 
+    """Create a new, empty world."""
     @staticmethod
     def __new_world():
         world = dict()
@@ -55,6 +72,11 @@ class Engine:
         return world
 
 
+    """Load a world from a file.
+    Expected format: 1 char per cell.
+    `.` = conductor, `H` = head, `t` = tail.
+    A space `' '` or nothing at the end of the line: empty
+    """
     @staticmethod
     def load(file_name):
         world = Engine.__new_world()
