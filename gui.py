@@ -24,17 +24,16 @@ class Gui:
         block_max_size = 20
         block_min_size = 1
 
-        canvas_width = int(world_width * block_max_size)
-        if canvas_width > canvas_max_width:
-            canvas_width = canvas_max_width
-        elif canvas_width < canvas_min_width:
-            canvas_width = canvas_min_width
+        def compute_one_canvas_dimension(min_size, max_size, world_dimension):
+            canvas_dim = int(world_dimension * block_max_size)
+            if canvas_dim > max_size:
+                canvas_dim = max_size
+            elif canvas_dim < min_size:
+                canvas_dim = min_size
+            return canvas_dim
 
-        canvas_height = int(world_height * block_max_size)
-        if canvas_height > canvas_max_height:
-            canvas_height = canvas_max_height
-        elif canvas_height < canvas_min_height:
-            canvas_height = canvas_min_height
+        canvas_width  = compute_one_canvas_dimension(canvas_min_width, canvas_max_width, world_width)
+        canvas_height = compute_one_canvas_dimension(canvas_min_height, canvas_max_height, world_height)
 
         block_width = block_max_size
         if block_width * world_width > canvas_width:
