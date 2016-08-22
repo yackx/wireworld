@@ -55,20 +55,8 @@ def tick(world):
     return new_world
 
 
-def main():
-    ww = load_object('diode')
-    print ww
-    for _ in xrange(4):
-        time.sleep(1)
-        ww = tick(ww)
-        print ww
-
-    # Tk, frame and canvas
-    root = tk.Tk()
-    frame = tk.Frame(root)
-    #frame.pack(fill=tk.BOTH, expand=tk.YES)
-    canvas = tk.Canvas(frame, width=600, height=400, bg="black")
-    #canvas.pack(fill=tk.BOTH, expand=tk.YES)
+def draw(frame, canvas):
+    global ww
 
     # Draw cells
     for color, points in ww.iteritems():
@@ -76,10 +64,24 @@ def main():
             point = [i * block for i in point]
             x, y = point
             canvas.create_rectangle(x, y, x+block, y+block, fill=color)
-
     # Render
     canvas.pack()
     frame.pack()
+    # Next state
+    ww = tick(ww)
+
+    canvas.after(500, draw, frame, canvas)
+
+
+def main():
+    global ww
+    ww = load_object('diode')
+
+    # Tk, frame and canvas
+    root = tk.Tk()
+    frame = tk.Frame(root)
+    canvas = tk.Canvas(frame, width=600, height=400, bg="black")
+    draw(frame, canvas)
     root.mainloop()
 
 
