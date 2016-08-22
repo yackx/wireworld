@@ -1,6 +1,6 @@
 from itertools import product
 
-class World:
+class Engine:
 
     def __init__(self, world):
         self.world = world
@@ -11,29 +11,34 @@ class World:
 
 
     def tick(self):
-        new_world = dict()
+        new_world = Engine.__new_world()
 
+        # All neighbors as delta (-1,-1 to 1, 1)
         dd = list(product([-1, 0, 1], repeat= 2))
         dd.remove((0, 0))
 
-        new_world['blue'] = []
-        new_world['yellow']= []
+        # conductor -> head if 1 or 2 neighbors, conductor otherwise
         for x, y in self.world['yellow']:
             n = sum((x+dx, y+dy) in self.world['blue'] for dx, dy in dd)
             if n == 1 or n == 2:
                 color = 'blue'
             else:
                 color = 'yellow'
-            #print "{0}, {1} has {2} neighbors".format(x, y, n)
             new_world[color].append((x, y))
 
-        # head -> tail
-        new_world['red'] = self.world['blue']
-        # tail -> conductor
-        new_world['yellow'] += self.world['red']
+        new_world['red'] = self.world['blue']       # head -> tail
+        new_world['yellow'] += self.world['red']    # tail -> conductor
 
         self.world = new_world
         return self.world
+
+
+    @staticmethod
+    def __new_world():
+        world = dict()
+        for k in ['blue', 'red', 'yellow']:
+            world[k] = []
+        return world
 
 
     @staticmethod
@@ -46,15 +51,13 @@ class World:
 
     @staticmethod
     def load(file_name):
-        world = dict()
-        for k in ['blue', 'red', 'yellow']:
-            world[k] = []
+        world = Engine.__new_world()
 
         with open(file_name, 'r') as f:
             for line_number, line in enumerate(f):
                 line = line.rstrip('\n\r ')
                 for char_index, c in enumerate(line):
                     if c != ' ':
-                        world[World.__char_to_color(c)].append((char_index, line_number))
+                        world[Engine.__char_to_color(c)].append((char_index, line_number))
 
         return world

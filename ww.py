@@ -2,7 +2,7 @@
 
 import Tkinter as tk
 
-from world import World
+from engine import Engine
 
 
 block = 20
@@ -30,8 +30,8 @@ def draw(frame, canvas):
 def main():
     global ww
 
-    initial_state = World.load('diode.txt')
-    ww = World(initial_state)
+    initial_state = Engine.load('diode.txt')
+    ww = Engine(initial_state)
 
     # Tk, frame and canvas
     root = tk.Tk()
