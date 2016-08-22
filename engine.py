@@ -30,7 +30,7 @@ class Engine:
         self.dd.remove((0, 0))
 
     """Return the current state of the world as a map.
-    Keys: Color; Values: list of (x, y) tuples.
+    keys: Color; values: list of (x, y) tuples.
 
     For instance:
         {
