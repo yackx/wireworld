@@ -4,8 +4,9 @@ import tkinter as tk
 class Gui:
 
     """Init the GUI with the Wireworld"""
-    def __init__(self, world):
+    def __init__(self, world, delay):
         self.world = world
+        self.delay = delay
 
         world_width, world_height = self.world.dimensions()
         canvas_width, canvas_height, self.block_size = self.__compute_sizes(world_width, world_height)
@@ -65,4 +66,4 @@ class Gui:
         self.world.tick()
 
         # Refresh periodically
-        self.canvas.after(500, self.__draw)
+        self.canvas.after(self.delay, self.__draw)
