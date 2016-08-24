@@ -12,6 +12,7 @@ class Gui:
         canvas_width, canvas_height, self.block_size = self.__compute_sizes(world_width, world_height)
 
         self.root = tk.Tk()
+        self.root.title('Wireworld')
         self.frame = tk.Frame(self.root)
         self.canvas = tk.Canvas(self.frame, width=canvas_width, height=canvas_height, bg="black")
 
