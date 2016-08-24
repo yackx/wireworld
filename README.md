@@ -4,6 +4,8 @@
 
 This is a simple implementation in **Python**, with a basic GUI.
 
+![Wireworld XOR circuit with feeders](circuits/xor-generators.png)
+
 ## Usage
 
     $ python ww.py source delay
