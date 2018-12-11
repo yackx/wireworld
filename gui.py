@@ -1,10 +1,11 @@
 import tkinter as tk
 
-"""Displays the Wireworld and make it evolve to its next states"""
-class Gui:
 
-    """Init the GUI with the Wireworld"""
+class Gui:
+    """Displays the Wireworld and make it evolve to its next states"""
+
     def __init__(self, world, delay):
+        """Init the GUI with the Wireworld"""
         self.world = world
         self.delay = delay
 
@@ -16,9 +17,8 @@ class Gui:
         self.frame = tk.Frame(self.root)
         self.canvas = tk.Canvas(self.frame, width=canvas_width, height=canvas_height, bg="black")
 
-
-    """Compute canvas and block sizes"""
     def __compute_sizes(self, world_width, world_height):
+        """Compute canvas and block sizes"""
         canvas_max_width = 1000
         canvas_min_width = 20
         canvas_max_height = 750
@@ -27,7 +27,7 @@ class Gui:
         block_min_size = 2
 
         def clip(lo, x, hi):
-             return lo if x <= lo else hi if x >= hi else x
+            return lo if x <= lo else hi if x >= hi else x
 
         canvas_width  = clip(canvas_min_width, world_width*block_max_size, canvas_max_width)
         canvas_height = clip(canvas_min_height, world_height*block_max_size, canvas_max_height)
@@ -41,16 +41,14 @@ class Gui:
 
         return canvas_width, canvas_height, block_size
 
-
-    """Start animating the world"""
     def start(self):
+        """Start animating the world"""
         self.__draw()
         self.root.mainloop()
 
-
-    """Draw the current state of the world, then pause.
-    This function schedules a call to itself via `after`."""
     def __draw(self):
+        """Draw the current state of the world, then pause.
+        This function schedules a call to itself via `after`."""
         b_size = self.block_size
         # Draw cells
         for color, points in self.world.state().items():
